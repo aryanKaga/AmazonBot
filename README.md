@@ -86,7 +86,49 @@ QDRANT_COLLECTION_NAME=amazon_customer_queries
 Never commit `.env` or an API key. The application raises an explicit error if
 `GEMINI_API_KEY` is missing.
 
-## Run Qdrant
+## Run with Docker Compose
+
+```powershell
+docker compose up -d --build
+```
+
+This starts the FastAPI application at `http://localhost:8000` and Qdrant at
+`http://localhost:6333`. Docker Desktop must be running. The API container
+uses `http://qdrant:6333` internally; `localhost:6333` is only the host-side
+address.
+
+Check both service health states:
+
+```powershell
+docker compose ps
+Invoke-WebRequest http://localhost:8000/health
+```
+
+Inspect the existing Qdrant collection before sending chat requests:
+
+```powershell
+docker compose exec api python -c "from amazon_bot.retrieval import get_client; print(get_client().get_collections())"
+```
+
+If the collection has not yet been created, run the existing indexer:
+
+```powershell
+docker compose exec api python data\index_data\vector_index_data.py
+```
+
+The indexer requires the configured embedding model and source data. Set
+`GEMINI_API_KEY` in `.env` before using `/chat`; the health endpoint does not
+require it.
+
+To stop the stack:
+
+```powershell
+docker compose down
+```
+
+## Run the API without Docker
+
+To run only Qdrant in Docker and the API on the host, use:
 
 ```powershell
 docker compose up -d qdrant
@@ -97,12 +139,6 @@ collection before serving traffic:
 
 ```powershell
 .\env\Scripts\python.exe -c "from amazon_bot.retrieval import get_client; print(get_client().get_collections())"
-```
-
-If the collection has not yet been created, run the existing indexer:
-
-```powershell
-.\env\Scripts\python.exe data\index_data\vector_index_data.py
 ```
 
 ## Start the API
@@ -154,3 +190,26 @@ The tests mock the LLM and retrieval layer:
 ```powershell
 .\env\Scripts\python.exe -m pytest -q
 ```
+
+The API tests cover health and frontend availability, Pydantic validation,
+session history and clearing, workflow failures, and human-bucket ticket
+listing/claiming. Run them directly with:
+
+```powershell
+.\env\Scripts\python.exe -m pytest tests\test_api.py -q
+```
+
+The browser smoke test uses Selenium and a headless Chrome browser. It starts
+the FastAPI app locally with a deterministic workflow stub, so it does not
+need Gemini credentials or a running Qdrant instance:
+
+```powershell
+.\env\Scripts\python.exe -m pytest tests\test_selenium.py -q
+```
+
+The Selenium suite also checks required-field validation, starting a new
+conversation, and rendering a client-side request error.
+
+Selenium Manager downloads a compatible ChromeDriver when needed. If Chrome is
+not installed or cannot be started, the browser test is skipped while the
+unit tests continue to run.

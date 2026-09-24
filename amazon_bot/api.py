@@ -7,9 +7,12 @@ from amazon_bot.config import get_settings
 from amazon_bot.human_bucket import claim_ticket, list_tickets
 from amazon_bot.schemas import ConversationTurn
 from threading import Lock
+import logging
+from uuid import uuid4
 
 _sessions = {}
 _sessions_lock = Lock()
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Amazon Bot Assistant", version="1.0.0")
 FRONTEND_PATH = Path(__file__).resolve().parents[1] / "frontend" / "index.html"
@@ -58,7 +61,13 @@ def chat(request: ChatRequest):
             "history": [ConversationTurn(**turn) for turn in history],
         })
     except Exception as error:
-        raise HTTPException(status_code=502, detail=f"workflow failed: {error}") from error
+        request_id = uuid4().hex[:12]
+        logger.exception("Workflow failed request_id=%s session_id=%s", request_id, request.session_id)
+        raise HTTPException(
+            status_code=502,
+            detail=f"workflow failed: {error}",
+            headers={"X-Request-ID": request_id},
+        ) from error
     response = state["final_response"]
     answer = response.get("answer")
     new_turns = [{"role": "user", "text": request.query}]

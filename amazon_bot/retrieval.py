@@ -31,7 +31,9 @@ def retrieve_candidates(query: str) -> List[Conversation]:
         limit=settings.qdrant_candidate_limit,
         with_payload=True,
     ).points
+    print('loading conversation')
     conversations = _load_conversations()
+    print('covo')
     output = []
     for point in points:
         tweet_id = str(point.payload.get("tweet_id"))

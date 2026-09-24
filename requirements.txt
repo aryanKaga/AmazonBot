@@ -10,3 +10,4 @@ langsmith
 python-dotenv
 pydantic-settings
 pytest
+selenium

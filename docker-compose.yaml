@@ -8,5 +8,28 @@ services:
     volumes:
       - qdrant_data:/qdrant/storage
 
+  api:
+    build:
+      context: .
+    container_name: amazon_api
+    ports:
+      - "8000:8000"
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash-lite}
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_COLLECTION_NAME: ${QDRANT_COLLECTION_NAME:-amazon_customer_queries}
+      QDRANT_CANDIDATE_LIMIT: ${QDRANT_CANDIDATE_LIMIT:-20}
+      MAX_REVIEW_ITERATIONS: ${MAX_REVIEW_ITERATIONS:-3}
+      ESCALATION_CONFIDENCE: ${ESCALATION_CONFIDENCE:-0.45}
+    depends_on:
+      qdrant:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   qdrant_data:

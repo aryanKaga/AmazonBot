@@ -1,5 +1,13 @@
 INTENTS = [
-    "delivery_issue", "order_issue", "refund", "return", "payment_issue",
-    "account_issue", "prime_membership", "kindle", "alexa_echo",
-    "subscription", "cancellation", "unknown",
+    "delivery_issue",
+    "refund_request",
+    "payment_issue",
+    "subscription_issue",
+
+    # Response intents
+    "provide_requested_information",
+    "confirm_information",
+    "deny_information",
+    "ask_for_clarification",
+    "thank_you"
 ]
