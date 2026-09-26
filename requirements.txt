@@ -11,3 +11,7 @@ python-dotenv
 pydantic-settings
 pytest
 selenium
+redis
+rq
+sqlalchemy
+psycopg2-binary

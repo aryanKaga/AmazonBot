@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     max_review_iterations: int = 3
     escalation_confidence: float = 0.45
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+    redis_url: str = "redis://localhost:6379/0"
+    database_url: str = "postgresql://user:password@localhost:5432/amazon_bot"
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 

@@ -1,0 +1,335 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: rgba(10, 12, 18, 0.95);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  gap: 8px;
+}
+
+.sidebarLogo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 16px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 8px;
+}
+
+.logoIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, rgba(99, 130, 255, 0.2), rgba(167, 139, 250, 0.2));
+  border: 1px solid var(--color-border-hover);
+  border-radius: 10px;
+}
+
+.sidebarTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-base);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.navItem:hover {
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
+}
+
+.navActive {
+  background: rgba(99, 130, 255, 0.1);
+  color: var(--color-accent);
+  border: 1px solid rgba(99, 130, 255, 0.2);
+}
+
+.sidebarFooter {
+  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
+  margin-top: auto;
+}
+
+.userChip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: var(--radius-md);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.userName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.userEmail {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+/* ---- Main chat area ---- */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(10, 12, 18, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.headerTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, rgba(99, 130, 255, 0.2), rgba(167, 139, 250, 0.2));
+  border: 1px solid rgba(99, 130, 255, 0.3);
+  color: var(--color-accent);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- Bubbles ---- */
+.bubble {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: fade-in-up 0.3s ease;
+  max-width: 80%;
+}
+
+.bubbleUser {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  animation: slide-in-right 0.3s ease;
+}
+
+.bubbleBot {
+  align-self: flex-start;
+  animation: slide-in-left 0.3s ease;
+}
+
+.bubbleSystem {
+  align-self: center;
+  max-width: 90%;
+}
+
+.botAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(99, 130, 255, 0.1);
+  border: 1px solid rgba(99, 130, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.bubbleContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bubbleText {
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.bubbleUser .bubbleText {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.bubbleBot .bubbleText {
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-bottom-left-radius: 4px;
+}
+
+.bubbleSystem .bubbleText {
+  background: rgba(99, 130, 255, 0.05);
+  border: 1px solid rgba(99, 130, 255, 0.15);
+  color: var(--color-text-secondary);
+  border-radius: 12px;
+  font-style: italic;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.escalatedBadge {
+  font-size: 0.76rem;
+  color: var(--color-warning);
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.escalatedBadge code {
+  font-size: 0.74rem;
+  color: var(--color-accent-2);
+}
+
+.confidenceBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.confidenceFill {
+  height: 3px;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  max-width: 80px;
+  min-width: 12px;
+}
+
+.confidenceLabel {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+/* ---- Typing dots ---- */
+.typingDots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 18px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+}
+
+.typingDots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: typing 1.2s ease-in-out infinite;
+  display: block;
+}
+
+/* ---- Input row ---- */
+.inputRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  background: rgba(10, 12, 18, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.textarea {
+  flex: 1;
+  resize: none;
+  min-height: 48px;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: 1.5;
+  padding-top: 13px;
+}
+
+.sendBtn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 12px;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
