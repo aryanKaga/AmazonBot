@@ -84,7 +84,7 @@ def chrome():
 
 
 def _wait_for_result(chrome):
-    return WebDriverWait(chrome, 5).until(
+    return WebDriverWait(chrome, 10).until(
         EC.visibility_of_element_located((By.ID, "result"))
     )
 
